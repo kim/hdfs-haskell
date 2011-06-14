@@ -1,0 +1,26 @@
+Name:                hdfs-haskell
+Version:             0.1
+Synopsis:            bindings to libhdfs
+Description:         Haskell bindings to libhdfs
+                     (http://hadoop.apache.org/common/docs/current/libhdfs.html)
+Homepage:            https://github.com/kim/hdfs-haskell
+License:             LGPL-3
+License-file:        LICENSE
+Author:              Kim Altintop
+Maintainer:          kim.altintop@gmail.com
+Category:            System, FFI
+Stability:           Experimental
+Build-type:          Simple
+Cabal-version:       >=1.2
+Tested-with:         GHC == 7.0.3
+extra-source-files:  Readme.md, test.hs, test.sh
+
+Library
+  exposed-modules:  System.HDFS
+  other-modules:    System.HDFS.Base
+  extensions:       CPP, ForeignFunctionInterface
+  build-depends:    base >= 3 && < 5, bytestring
+  ghc-options:      -Wall -O2
+  hs-source-dirs:   src
+  includes:         hdfs.h
+  extra-libraries:  hdfs
