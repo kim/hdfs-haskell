@@ -191,12 +191,15 @@ ls :: FileSystem -> Path -> IO [FileInfo]
 ls (FileSystem fs) p =
   withCString p $ \path   ->
   alloca        $ \numptr -> do
-    cinfo <- throwErrnoIfNull "ls" $
+    cinfo <- --throwErrnoIfNull "ls" $
                c_hdfs_list_directory fs path numptr
     num   <- peek numptr
     info  <- peekArray (fromIntegral num) cinfo >>= mapM mkFileInfo
     c_hdfs_free_file_info cinfo num
-    return info
+    errNo <- getErrno
+    if errNo == eOK
+      then return info
+      else throwErrno "ls"
 
 cwd :: FileSystem -> IO String
 cwd (FileSystem fs) =
